@@ -17,10 +17,27 @@ require 'app/models/specification_wrapper'
 module Pod
   module PushApp
     class App < Sinatra::Base
+      configure :production, :development do
+        enable :logging
+      end
+
+      require 'app/controllers/app/authentication_headers'
+      require 'app/controllers/app/authentication'
+
+      find_authenticated_user
+
       before do
         content_type 'text/yaml'
         unless request.media_type == 'text/yaml'
           error 415, "Unable to accept input with Content-Type `#{request.media_type}`, must be `text/yaml`.".to_yaml
+        end
+      end
+
+      get '/me' do
+        if @session
+          halt(200, @session.to_yaml)
+        else
+          error(404, "Unable to authentication owner.".to_yaml)
         end
       end
 
