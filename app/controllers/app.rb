@@ -1,11 +1,16 @@
+$:.unshift File.expand_path('../../../lib', __FILE__)
+
 require 'sinatra/base'
 
 require 'cocoapods-core/specification'
 require 'cocoapods-core/specification/linter'
 
 require 'db/config'
+
 require 'app/models/github'
+require 'app/models/owner'
 require 'app/models/pod'
+require 'app/models/session'
 require 'app/models/travis'
 require 'app/models/specification_wrapper'
 
