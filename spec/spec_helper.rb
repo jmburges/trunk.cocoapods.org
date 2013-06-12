@@ -19,6 +19,11 @@ require 'app/controllers/app'
 
 Mocha::Configuration.prevent(:stubbing_non_existent_method)
 
+$:.unshift(ROOT, 'spec')
+Dir.glob(File.join(ROOT, 'spec/spec_helper/**/*.rb')).each do |filename|
+  require File.join('spec_helper', File.basename(filename, '.rb'))
+end
+
 class Bacon::Context
   def fixture(filename)
     File.join(ROOT, 'spec/fixtures', filename)
